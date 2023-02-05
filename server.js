@@ -1,25 +1,31 @@
 const app = require("./app");
-const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-app.listen(3000, () => {
-  console.log("\nServer running. Use our API on port: 3000");
+const PORT = process.env.PORT || 3000;
+const uriDb = process.env.DB_HOST;
+
+mongoose.set("strictQuery", true);
+
+const connection = mongoose.connect(uriDb, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-dotenv.config();
-
-mongoose
-  .connect(process.env.DB_HOST, {})
+connection
   .then(() => {
-    console.log("\nDatabase connection successful\n");
+    console.log("\nDatabase connection successful");
+    app.listen(PORT, () => {
+      console.log(`Server running. Use our API on port: ${PORT}`);
+    });
   })
-  .catch((error) => {
-    console.log(error.message);
+  .catch((err) => {
+    console.log("\nDatabase not running\n".red, err.toString());
     process.exit(1);
   });
 
 function signalHandler() {
-  console.log("Database disconnected");
   mongoose.disconnect();
+  console.log("\nDatabase disconnected\n");
 }
 process.on("SIGINT", signalHandler);
