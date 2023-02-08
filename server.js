@@ -3,11 +3,11 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
-const uriDb = process.env.DB_HOST;
+const DB_HOST = process.env.DB_HOST;
 
 mongoose.set("strictQuery", true);
 
-const connection = mongoose.connect(uriDb, {
+const connection = mongoose.connect(DB_HOST, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });

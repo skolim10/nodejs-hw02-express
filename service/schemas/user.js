@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-// const passportLocalMongoose = require('passport-local-mongoose')
+const bCrypt = require("bcryptjs");
 
 const userSchema = new Schema(
   {
@@ -29,7 +29,17 @@ const userSchema = new Schema(
   },
   { versionKey: false, timestamp: true }
 );
-// userSchema.plugin(passportLocalMongoose)
+userSchema.methods.setPassword = function (password) {
+  this.password = bCrypt.hashSync(password, bCrypt.genSaltSync(6));
+};
+
+userSchema.methods.validPassword = function (password) {
+  return bCrypt.compareSync(password, this.password);
+};
+
+userSchema.methods.setToken = function (token) {
+  this.token = token;
+};
 
 const User = mongoose.model("User", userSchema, "users");
 

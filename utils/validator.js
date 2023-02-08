@@ -14,7 +14,6 @@ const validator = (schema) => (body) => {
 const contactsValidator = validator(contactSchema);
 
 const userSchema = joi.object({
-  name: joi.string().min(3),
   email: joi.string().email(),
   password: joi.string(),
 });
