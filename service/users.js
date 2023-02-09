@@ -2,4 +2,8 @@ const User = require("./schemas/user");
 
 const getUser = async (body) => User.findOne(body);
 
-module.exports = { getUser };
+const updateUserSubscription = async (userId, subscription) => {
+  return User.findByIdAndUpdate(userId, { subscription });
+};
+
+module.exports = { getUser, updateUserSubscription };

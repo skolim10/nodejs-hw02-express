@@ -25,7 +25,7 @@ passport.use(
   })
 );
 
-const auth = (req, res, next) => {
+const authUser = (req, res, next) => {
   passport.authenticate("jwt", { session: false }, (err, user) => {
     if (!user || err) {
       return res.status(401).json({
@@ -40,4 +40,4 @@ const auth = (req, res, next) => {
   })(req, res, next);
 };
 
-module.exports = { auth };
+module.exports = { authUser };

@@ -27,5 +27,6 @@ connection
 function signalHandler() {
   mongoose.disconnect();
   console.log("\nDatabase disconnected\n");
+  process.exit();
 }
 process.on("SIGINT", signalHandler);
