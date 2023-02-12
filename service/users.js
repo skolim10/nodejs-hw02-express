@@ -6,4 +6,8 @@ const updateUserSubscription = async (userId, subscription) => {
   return User.findByIdAndUpdate(userId, { subscription });
 };
 
-module.exports = { getUser, updateUserSubscription };
+const updateUserAvatar = async (userId, avatarURL) => {
+  return User.findByIdAndUpdate(userId, { avatarURL });
+};
+
+module.exports = { getUser, updateUserSubscription, updateUserAvatar };
