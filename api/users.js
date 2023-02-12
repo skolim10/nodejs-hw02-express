@@ -19,5 +19,6 @@ router.patch(
   uploadMiddleware.single("avatar"),
   userController.updateAvatar
 );
+router.delete("/", userController.deleteUserByMail);
 
 module.exports = router;

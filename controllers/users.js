@@ -2,13 +2,13 @@ const { userValidator } = require("./../utils/validator");
 const service = require("../service/users");
 const jwt = require("jsonwebtoken");
 const User = require("../service/schemas/user");
-require("dotenv").config();
 const gravatar = require("gravatar");
 const fs = require("fs/promises");
 const path = require("path");
 const Jimp = require("jimp");
 const { imageStore } = require("../middlewares/upload");
 const secret = process.env.SECRET;
+require("dotenv").config();
 
 const register = async (req, res, next) => {
   const { error } = userValidator(req.body);
@@ -26,12 +26,11 @@ const register = async (req, res, next) => {
   }
   try {
     const avatarURL = gravatar.url(email, {
-      s: "200",
-      r: "pg",
-      d: "mm",
+      s: "250",
+      d: "mp",
     });
 
-    const newUser = new User({ email, password, subscription });
+    const newUser = new User({ email, password, subscription, avatarURL });
 
     newUser.setPassword(password);
     await newUser.save();
@@ -71,11 +70,15 @@ const login = async (req, res, next) => {
   const token = jwt.sign(payload, secret, { expiresIn: "1h" });
   user.setToken(token);
   await user.save();
-  res.json({
+  res.status(200).json({
     status: "success",
     code: 200,
     data: {
       token,
+      user: {
+        email: user.email,
+        subscription: user.subscription,
+      },
     },
   });
 };
@@ -187,7 +190,19 @@ const updateAvatar = async (req, res, next) => {
     status: 200,
   });
 };
-
+const deleteUserByMail = async (req, res) => {
+  try {
+    const email = req.query.email;
+    const userToRemove = await service.deleteUser(email);
+    if (!userToRemove) {
+      return res.status(404).json({ message: "Not found user" });
+    } else {
+      res.status(200).json({ message: "User deleted from data base" });
+    }
+  } catch (error) {
+    console.log(`Error: ${error.message}`.red);
+  }
+};
 const isCorrectResizedImage = async (imagePath) =>
   new Promise((resolve) => {
     try {
@@ -212,4 +227,5 @@ module.exports = {
   getUsers,
   updateSubscription,
   updateAvatar,
+  deleteUserByMail,
 };

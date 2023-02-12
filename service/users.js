@@ -10,4 +10,12 @@ const updateUserAvatar = async (userId, avatarURL) => {
   return User.findByIdAndUpdate(userId, { avatarURL });
 };
 
-module.exports = { getUser, updateUserSubscription, updateUserAvatar };
+const deleteUser = async (userMail) =>
+  User.findOneAndDelete({ email: userMail });
+
+module.exports = {
+  getUser,
+  updateUserSubscription,
+  updateUserAvatar,
+  deleteUser,
+};
