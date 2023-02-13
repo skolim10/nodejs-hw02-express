@@ -6,4 +6,24 @@ const updateUserSubscription = async (userId, subscription) => {
   return User.findByIdAndUpdate(userId, { subscription });
 };
 
-module.exports = { getUser, updateUserSubscription };
+const updateUserAvatar = async (userId, avatarURL) => {
+  return User.findByIdAndUpdate(userId, { avatarURL });
+};
+
+const deleteUser = async (userMail) =>
+  User.findOneAndDelete({ email: userMail });
+
+const updateUserVerification = async (userId) => {
+  return User.findByIdAndUpdate(userId, {
+    verificationToken: null,
+    verify: true,
+  });
+};
+
+module.exports = {
+  getUser,
+  updateUserSubscription,
+  updateUserAvatar,
+  deleteUser,
+  updateUserVerification,
+};

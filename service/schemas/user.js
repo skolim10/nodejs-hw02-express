@@ -22,9 +22,21 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    avatarURL: {
+      type: String,
+    },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
+    },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      default: null,
+      required: [true, "Verify token is required"],
     },
   },
   { versionKey: false, timestamp: true }

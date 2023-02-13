@@ -21,13 +21,13 @@ passport.use(
         }
         return done(null, user);
       })
-      .catch((err) => done(err));
+      .catch((error) => done(error));
   })
 );
 
 const authUser = (req, res, next) => {
-  passport.authenticate("jwt", { session: false }, (err, user) => {
-    if (!user || err) {
+  passport.authenticate("jwt", { session: false }, (error, user) => {
+    if (!user || error) {
       return res.status(401).json({
         status: "error",
         code: 401,
