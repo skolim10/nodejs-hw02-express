@@ -278,6 +278,7 @@ const resendVerificationMail = async (req, res) => {
   }
 };
 
+
 module.exports = {
   register,
   login,
