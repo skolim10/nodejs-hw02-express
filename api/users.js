@@ -6,8 +6,10 @@ const { uploadMiddleware } = require("../middlewares/upload");
 
 router.post("/signup", authUser, userController.register);
 router.post("/login", userController.login);
+router.post("verify", userController.resendVerificationMail);
 router.get("/logout", authUser, userController.logout);
 router.get("/current", authUser, userController.current);
+router.get("/verify/:verificationToken", userController.verifyUserByToken);
 router.patch(
   "/:userId/subscription",
   authUser,
